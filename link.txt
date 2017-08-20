@@ -1,0 +1,7 @@
+to run tomcat as service
+
+
+https://gist.github.com/lesstif/f96b2ea2b975b8b16d0e
+
+https://www.vultr.com/docs/how-to-install-apache-tomcat-8-on-centos-7
+
