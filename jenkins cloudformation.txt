@@ -1,0 +1,43 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "Ec2 instance",
+
+	"Resources": {
+		"EC2Instance": {
+			"Type": "AWS::EC2::Instance",
+			"Properties": {
+				"AvailabilityZone": "us-east-2a",
+				"ImageId": "ami-8a7859ef",
+				"InstanceType": "t2.micro",
+				"KeyName": "Mandava@1993",
+				"SecurityGroupIds": ["sg-95ccf7fc"],
+				"SubnetId": "subnet-53126d3a",
+				"UserData": {
+					"Fn::Base64": {
+						"Fn::Join": ["", [
+							"#!/bin/bash -xe\n",
+							"cd /opt\n",
+							"mkdir data\n",
+							"cd /opt/data\n",
+							"wget http://mirror.olnevhost.net/pub/apache/tomcat/tomcat-7/v7.0.79/bin/apache-tomcat-7.0.79.tar.gz\n",
+							"tar -zxvf apache-tomcat-7.0.79.tar.gz\n",
+							"cd /opt/data/apache-tomcat-7.0.79/bin\n",
+							"./startup.sh\n ",
+							"cd /opt/data/apache-tomcat-7.0.79/webapps\n",
+							"wget https://updates.jenkins-ci.org/latest/jenkins.war\n",
+							"cd /opt/data/apache-tomcat-7.0.79/bin\n",
+							"./shutdown.sh\n",
+							"./startup.sh\n"
+						]]
+					}
+				}
+			}
+		},
+		"Type": "AWS::IAM::InstanceProfile",
+		"Statement": {
+			"Effect": "Allow",
+			"Action": "s3:*",
+			"Resource": "arn:aws:s3:::teja307"
+		}
+	}
+}
